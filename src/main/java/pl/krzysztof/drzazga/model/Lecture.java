@@ -20,6 +20,10 @@ public class Lecture implements Serializable {
     @Column(name = "conference_path")
     private ConferencePath conferencePath;
 
+    @NotNull
+    @Column(name = "lecture_name")
+    private String lectureName;
+
     @ManyToMany
     @JoinTable(name = "lectures_has_users",
             joinColumns = @JoinColumn(name = "lecture_id"),
@@ -29,8 +33,8 @@ public class Lecture implements Serializable {
     private Set<User> users;
 
     @NotNull
-    @Column(name = "order_in_path")
-    private int orderInPath;
+    @Column(name = "lecture_date")
+    private LocalDateTime lectureDate;
 
     public long getLectureId() {
         return lectureId;
@@ -56,12 +60,20 @@ public class Lecture implements Serializable {
         this.users = users;
     }
 
-    public int getOrderInPath() {
-        return orderInPath;
+    public LocalDateTime getLectureDate() {
+        return lectureDate;
     }
 
-    public void setOrderInPath(int orderInPath) {
-        this.orderInPath = orderInPath;
+    public void setLectureDate(LocalDateTime lectureDate) {
+        this.lectureDate = lectureDate;
+    }
+
+    public String getLectureName() {
+        return lectureName;
+    }
+
+    public void setLectureName(String columnName) {
+        this.lectureName = columnName;
     }
 
     public Lecture() {
