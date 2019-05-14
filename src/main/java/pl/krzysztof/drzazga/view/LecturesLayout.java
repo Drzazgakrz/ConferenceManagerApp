@@ -1,7 +1,10 @@
 package pl.krzysztof.drzazga.view;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
+import org.springframework.beans.factory.annotation.Value;
 import pl.krzysztof.drzazga.data.LecturesRepository;
 import pl.krzysztof.drzazga.model.Lecture;
 
@@ -13,7 +16,13 @@ public class LecturesLayout extends VerticalLayout {
 
     private List<Lecture> lectures;
 
-    public LecturesLayout(List<Lecture> lectures) {
+    public void addHeader(String header){
+        Label label = new Label("Ścieżka "+header);
+        label.setStyleName(ValoTheme.LABEL_H3);
+        this.addComponent(label);
+    }
+
+    public void createLayout(List<Lecture> lectures){
         this.lectures = lectures;
         lectures.forEach(lecture -> {
             LectureComponent lectureComponent = new LectureComponent(lecture);

@@ -2,9 +2,7 @@ package pl.krzysztof.drzazga.view;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import pl.krzysztof.drzazga.data.LecturesRepository;
 import pl.krzysztof.drzazga.model.ConferencePath;
 import pl.krzysztof.drzazga.model.Lecture;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @SpringComponent
@@ -28,7 +25,7 @@ public class ConferenceSchedule extends HorizontalLayout implements View {
 
     @Autowired
     public ConferenceSchedule(LecturesRepository repository,
-                              @Value("${mainPage.header}") String header){
+                              @Value("${mainPage.header}") String header) {
         this.header = header;
         this.lecturesRepository = repository;
     }
@@ -41,22 +38,24 @@ public class ConferenceSchedule extends HorizontalLayout implements View {
 
     private void createLecturesTable() {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
-        for(ConferencePath path: ConferencePath.values()){
+        for (ConferencePath path : ConferencePath.values()) {
             List<Lecture> lectures = lecturesRepository.getAllByConferencePath(path);
-            LecturesLayout lecturesTable = new LecturesLayout(lectures);
+            LecturesLayout lecturesTable = new LecturesLayout();
+            lecturesTable.addHeader(path.toString());
+            lecturesTable.createLayout(lectures);
             horizontalLayout.addComponent(lecturesTable);
         }
         this.root.addComponent(horizontalLayout);
     }
 
 
-    private void initializeLayout(){
+    private void initializeLayout() {
         this.root = new VerticalLayout();
         this.root.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         this.addComponent(root);
     }
 
-    private void createHeader(){
+    private void createHeader() {
         Label header = new Label(this.header);
         header.addStyleName(ValoTheme.LABEL_H1);
         root.addComponent(header);
@@ -64,6 +63,7 @@ public class ConferenceSchedule extends HorizontalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        this.init();
+        if (this.root == null)
+            this.init();
     }
 }
