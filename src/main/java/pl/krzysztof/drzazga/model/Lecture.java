@@ -79,4 +79,11 @@ public class Lecture implements Serializable {
     public Lecture() {
         this.users = new HashSet<>();
     }
+
+    public boolean addUser(User user){
+        if(this.users.size()==5)
+            return false;
+        this.users.add(user);
+        return true;
+    }
 }
