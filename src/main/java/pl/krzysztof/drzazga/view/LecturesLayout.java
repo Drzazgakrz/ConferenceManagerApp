@@ -4,11 +4,8 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
-import org.springframework.beans.factory.annotation.Value;
-import pl.krzysztof.drzazga.data.LecturesRepository;
 import pl.krzysztof.drzazga.model.Lecture;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringComponent

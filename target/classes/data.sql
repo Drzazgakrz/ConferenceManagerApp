@@ -1,3 +1,4 @@
+delete from conference_manager_app.public.lectures_has_users;
 delete from conference_manager_app.public.lectures;
 insert into conference_manager_app.public.lectures
     (conference_path, lecture_date, lecture_name)

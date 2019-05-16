@@ -7,9 +7,14 @@ import pl.krzysztof.drzazga.model.Lecture;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 public interface LecturesRepository extends JpaRepository<Lecture,Long> {
     @Transactional
-    @Query("select lecture from Lecture lecture left join fetch lecture.users where lecture.conferencePath=?1")
-    List<Lecture> getAllByConferencePath(ConferencePath path);
+    @Query("select distinct lecture from Lecture lecture left join fetch lecture.users where lecture.conferencePath=?1")
+    List<Lecture> getAllByConferencePathOrderByLectureDateAsc(ConferencePath path);
+
+    @Transactional
+    @Query("select lecture from Lecture lecture left join fetch lecture.users where lecture.lectureId=?1")
+    Optional<Lecture> findById(long id);
 }

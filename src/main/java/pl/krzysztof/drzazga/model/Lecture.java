@@ -24,13 +24,9 @@ public class Lecture implements Serializable {
     @Column(name = "lecture_name")
     private String lectureName;
 
-    @ManyToMany
-    @JoinTable(name = "lectures_has_users",
-            joinColumns = @JoinColumn(name = "lecture_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @OneToMany(mappedBy = "lecture")
     @Size(max = 5)
-    private Set<User> users;
+    private Set<LecturesHasUsers> users;
 
     @NotNull
     @Column(name = "lecture_date")
@@ -40,50 +36,21 @@ public class Lecture implements Serializable {
         return lectureId;
     }
 
-    public void setLectureId(long lectureId) {
-        this.lectureId = lectureId;
-    }
 
-    public ConferencePath getConferencePath() {
-        return conferencePath;
-    }
-
-    public void setConferencePath(ConferencePath conferencePath) {
-        this.conferencePath = conferencePath;
-    }
-
-    public Set<User> getUsers() {
+    public Set<LecturesHasUsers> getUsers() {
         return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 
     public LocalDateTime getLectureDate() {
         return lectureDate;
     }
 
-    public void setLectureDate(LocalDateTime lectureDate) {
-        this.lectureDate = lectureDate;
-    }
 
     public String getLectureName() {
         return lectureName;
     }
 
-    public void setLectureName(String columnName) {
-        this.lectureName = columnName;
-    }
-
     public Lecture() {
         this.users = new HashSet<>();
-    }
-
-    public boolean addUser(User user){
-        if(this.users.size()==5)
-            return false;
-        this.users.add(user);
-        return true;
     }
 }
