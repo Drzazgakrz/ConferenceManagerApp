@@ -1,9 +1,12 @@
 package pl.krzysztof.drzazga.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -16,15 +19,18 @@ public class User {
     private long userId;
 
     @NotNull
-    @Size(max = 100, min = 5)
+    @Size(max = 20, min = 5, message = "Niepoprawny login. Powinien mieć od 5 do 20 znaków")
+    @Column(unique = true)
     private String username;
 
     @NotNull
-    @Size(max = 100, min = 5)
+    @Column(unique = true)
+    @Email(message = "Niepoprawny email")
+    @Pattern(regexp = ".+@.+\\..+", message = "Niepoprawny email")
     private String email;
 
-    @ManyToMany(mappedBy = "users")
-    private Set<Lecture> lectures;
+    @OneToMany(mappedBy = "user")
+    private Set<LecturesHasUsers> lectures;
 
     public User() {
         this.lectures = new HashSet<>();
@@ -54,11 +60,32 @@ public class User {
         this.email = email;
     }
 
-    public Set<Lecture> getLectures() {
+    public Set<LecturesHasUsers> getLectures() {
         return lectures;
     }
 
-    public void setLectures(Set<Lecture> lectures) {
+    public void setLectures(Set<LecturesHasUsers> lectures) {
         this.lectures = lectures;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return username.equals(user.username) &&
+                email.equals(user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, email);
+    }
+
+    public LecturesHasUsers add(Lecture lecture){
+        LecturesHasUsers lecturesHasUsers = new LecturesHasUsers(this,lecture);
+        this.lectures.add(lecturesHasUsers);
+        lecture.getUsers().add(lecturesHasUsers);
+        return lecturesHasUsers;
     }
 }

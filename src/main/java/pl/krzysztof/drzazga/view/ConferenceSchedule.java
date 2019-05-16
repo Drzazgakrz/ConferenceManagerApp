@@ -18,15 +18,13 @@ public class ConferenceSchedule extends HorizontalLayout implements View {
 
     private VerticalLayout root;
 
-
+    @Value("${mainPage.header}")
     private String header;
 
     private LecturesRepository lecturesRepository;
 
     @Autowired
-    public ConferenceSchedule(LecturesRepository repository,
-                              @Value("${mainPage.header}") String header) {
-        this.header = header;
+    public ConferenceSchedule(LecturesRepository repository) {
         this.lecturesRepository = repository;
     }
 
@@ -39,7 +37,7 @@ public class ConferenceSchedule extends HorizontalLayout implements View {
     private void createLecturesTable() {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         for (ConferencePath path : ConferencePath.values()) {
-            List<Lecture> lectures = lecturesRepository.getAllByConferencePath(path);
+            List<Lecture> lectures = lecturesRepository.getAllByConferencePathOrderByLectureDateAsc(path);
             LecturesLayout lecturesTable = new LecturesLayout();
             lecturesTable.addHeader(path.toString());
             lecturesTable.createLayout(lectures);
@@ -63,7 +61,7 @@ public class ConferenceSchedule extends HorizontalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        if (this.root == null)
-            this.init();
+        this.removeAllComponents();
+        this.init();
     }
 }
