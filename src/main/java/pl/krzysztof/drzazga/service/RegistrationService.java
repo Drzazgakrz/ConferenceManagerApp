@@ -11,6 +11,8 @@ import pl.krzysztof.drzazga.model.Lecture;
 import pl.krzysztof.drzazga.model.LecturesHasUsers;
 import pl.krzysztof.drzazga.model.User;
 
+import java.io.IOException;
+
 @Service
 public class RegistrationService {
 
@@ -30,22 +32,24 @@ public class RegistrationService {
     @Value("${lectureSquad.complete}")
     private String lectureSquadComplete;
 
+    private EmailService emailService;
+
     @Autowired
     public RegistrationService(LecturesRepository lecturesRepository,
-            UsersRepository usersRepository,
-            LecturesHasUsersRepository lecturesHasUsersRepository){
+                               UsersRepository usersRepository,
+                               LecturesHasUsersRepository lecturesHasUsersRepository, EmailService emailService) {
         this.lecturesHasUsersRepository = lecturesHasUsersRepository;
         this.usersRepository = usersRepository;
         this.lecturesRepository = lecturesRepository;
-
+        this.emailService = emailService;
     }
 
-    public void register(User userFromTextFields, Lecture lecture) {
+    public void register(User userFromTextFields, Lecture lecture) throws IOException {
         this.lecture = lecture;
-            this.user = userFromTextFields;
-            User user = this.getUser();
-            this.checkPossibilityToRegister(user);
-            this.addUserToLecture(user);
+        this.user = userFromTextFields;
+        User user = this.getUser();
+        this.checkPossibilityToRegister(user);
+        this.addUserToLecture(user);
     }
 
     private User getUser() throws WrongDataException {
@@ -70,7 +74,7 @@ public class RegistrationService {
             throw new WrongDataException(this.registrationError);
     }
 
-    private void addUserToLecture(User user) throws WrongDataException {
+    private void addUserToLecture(User user) throws WrongDataException, IOException {
         long count = this.lecture.getUsers().stream().filter(LecturesHasUsers::isActive).count();
         if (count == 5)
             throw new WrongDataException(this.lectureSquadComplete);
@@ -80,9 +84,15 @@ public class RegistrationService {
         this.lecturesHasUsersRepository.save(lecturesHasUsers);
         this.lecturesRepository.save(lecture);
         this.usersRepository.save(user);
+        this.emailService.sendEmail(lecturesHasUsers);
     }
 
     public Lecture checkLecturePresence(long id) {
         return this.lecturesRepository.findById(id).get();
+    }
+
+    public void cancelRegistration(LecturesHasUsers lecturesHasUsers) {
+        lecturesHasUsers.setActive(false);
+        this.lecturesHasUsersRepository.save(lecturesHasUsers);
     }
 }

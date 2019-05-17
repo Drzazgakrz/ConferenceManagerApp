@@ -11,10 +11,12 @@ import org.springframework.context.annotation.Scope;
 import pl.krzysztof.drzazga.exception.WrongDataException;
 import pl.krzysztof.drzazga.model.Lecture;
 import pl.krzysztof.drzazga.model.User;
+import pl.krzysztof.drzazga.service.EmailService;
 import pl.krzysztof.drzazga.service.RegistrationService;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.io.IOException;
 
 @SpringComponent
 @Scope(value = "prototype")
@@ -32,9 +34,10 @@ public class UserRegistrationView extends VerticalLayout implements View {
     private String usernameLabel;
     @Value("${save.button}")
     private String saveButtonText;
-
     @Value("${registration.completed}")
     private String finalText;
+    @Value("email.error")
+    private String emailError;
 
     private Lecture lecture;
 
@@ -96,6 +99,8 @@ public class UserRegistrationView extends VerticalLayout implements View {
                 message.append(violation.getMessage()).append(", ");
 
             finalLabel.setValue(message.toString());
+        } catch (IOException e){
+            finalLabel.setValue(this.emailError);
         }
     }
 
