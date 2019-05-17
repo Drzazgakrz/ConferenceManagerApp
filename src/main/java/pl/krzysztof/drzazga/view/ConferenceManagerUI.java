@@ -2,7 +2,6 @@ package pl.krzysztof.drzazga.view;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.UI;
@@ -14,12 +13,18 @@ public class ConferenceManagerUI extends UI {
 
     private ConferenceSchedule conferenceSchedule;
     private UserRegistrationView userRegistrationView;
+    private SignInView signInView;
+    private UserLecturesView userLecturesView;
 
     @Autowired
     public ConferenceManagerUI(ConferenceSchedule conferenceSchedule,
-                               UserRegistrationView userRegistrationView) {
+                               UserRegistrationView userRegistrationView,
+                               SignInView signInView,
+                               UserLecturesView userLecturesView) {
         this.conferenceSchedule = conferenceSchedule;
         this.userRegistrationView = userRegistrationView;
+        this.signInView = signInView;
+        this.userLecturesView = userLecturesView;
     }
 
     @Override
@@ -30,5 +35,7 @@ public class ConferenceManagerUI extends UI {
         Navigator navigator = new Navigator(this, layout);
         navigator.addView("", conferenceSchedule);
         navigator.addView("register", userRegistrationView);
+        navigator.addView("login", signInView);
+        navigator.addView("user_lectures", userLecturesView);
     }
 }
