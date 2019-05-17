@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Scope;
 import pl.krzysztof.drzazga.exception.WrongDataException;
 import pl.krzysztof.drzazga.model.Lecture;
 import pl.krzysztof.drzazga.model.User;
-import pl.krzysztof.drzazga.service.EmailService;
 import pl.krzysztof.drzazga.service.RegistrationService;
 
 import javax.validation.ConstraintViolation;
