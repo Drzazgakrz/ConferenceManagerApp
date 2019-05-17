@@ -1,7 +1,6 @@
 package pl.krzysztof.drzazga.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Table(name = "lectures_has_users")
 @Entity
@@ -18,10 +17,21 @@ public class LecturesHasUsers {
     @MapsId("lectureId")
     private Lecture lecture;
 
+    private boolean isActive;
+
     public LecturesHasUsers(User user, Lecture lecture) {
         this.user = user;
         this.lecture = lecture;
         this.lecturesHasUsersId = new LecturesHasUsersId(user.getUserId(), lecture.getLectureId());
+        this.isActive=true;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public LecturesHasUsers() {
