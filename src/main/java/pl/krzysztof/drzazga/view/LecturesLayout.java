@@ -1,11 +1,10 @@
 package pl.krzysztof.drzazga.view;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import pl.krzysztof.drzazga.model.Lecture;
 import pl.krzysztof.drzazga.model.LecturesHasUsers;
 
@@ -13,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @SpringComponent
+@Scope("prototype")
 public class LecturesLayout extends VerticalLayout {
 
     public void addHeader(String header) {

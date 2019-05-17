@@ -5,6 +5,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import pl.krzysztof.drzazga.model.Lecture;
 import pl.krzysztof.drzazga.model.LecturesHasUsers;
 import pl.krzysztof.drzazga.service.RegistrationService;
@@ -12,6 +13,7 @@ import pl.krzysztof.drzazga.service.RegistrationService;
 import java.time.format.DateTimeFormatter;
 
 @SpringComponent
+@Scope("prototype")
 public class LectureComponent extends VerticalLayout {
 
     @Autowired

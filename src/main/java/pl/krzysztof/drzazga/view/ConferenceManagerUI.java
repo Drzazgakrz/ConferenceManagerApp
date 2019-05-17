@@ -15,16 +15,19 @@ public class ConferenceManagerUI extends UI {
     private UserRegistrationView userRegistrationView;
     private SignInView signInView;
     private UserLecturesView userLecturesView;
+    private SetEmailView setEmailView;
 
     @Autowired
     public ConferenceManagerUI(ConferenceSchedule conferenceSchedule,
                                UserRegistrationView userRegistrationView,
                                SignInView signInView,
-                               UserLecturesView userLecturesView) {
+                               UserLecturesView userLecturesView,
+                               SetEmailView setEmailView) {
         this.conferenceSchedule = conferenceSchedule;
         this.userRegistrationView = userRegistrationView;
         this.signInView = signInView;
         this.userLecturesView = userLecturesView;
+        this.setEmailView = setEmailView;
     }
 
     @Override
@@ -37,5 +40,6 @@ public class ConferenceManagerUI extends UI {
         navigator.addView("register", userRegistrationView);
         navigator.addView("login", signInView);
         navigator.addView("user_lectures", userLecturesView);
+        navigator.addView("set_email", setEmailView);
     }
 }

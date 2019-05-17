@@ -7,6 +7,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import pl.krzysztof.drzazga.data.LecturesRepository;
 import pl.krzysztof.drzazga.model.ConferencePath;
 import pl.krzysztof.drzazga.model.Lecture;
@@ -14,6 +15,7 @@ import pl.krzysztof.drzazga.model.Lecture;
 import java.util.List;
 
 @SpringComponent
+@Scope("prototype")
 public class ConferenceSchedule extends HorizontalLayout implements View {
 
     private VerticalLayout root;
