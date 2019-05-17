@@ -6,10 +6,12 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import pl.krzysztof.drzazga.model.LecturesHasUsers;
 import pl.krzysztof.drzazga.model.User;
 import pl.krzysztof.drzazga.service.SignInService;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @SpringComponent
 @Scope(value = "prototype")
@@ -38,7 +40,8 @@ public class UserLecturesView extends VerticalLayout implements View {
     }
 
     private void displayPanel(){
-        this.lecturesLayout.createUserPanel(this.user.getLectures());
+        this.lecturesLayout.createUserPanel(this.user.getLectures().stream()
+                .filter(LecturesHasUsers::isActive).collect(Collectors.toList()));
         this.addComponent(lecturesLayout);
     }
 }

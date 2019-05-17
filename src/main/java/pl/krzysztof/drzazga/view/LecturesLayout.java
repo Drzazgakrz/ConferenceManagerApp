@@ -1,6 +1,7 @@
 package pl.krzysztof.drzazga.view;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -22,7 +23,8 @@ public class LecturesLayout extends VerticalLayout {
 
     public void createLayout(List<Lecture> lectures) {
         lectures.forEach(lecture -> {
-            LectureComponent lectureComponent = new LectureComponent(lecture);
+            LectureComponent lectureComponent = new LectureComponent();
+            lectureComponent.createComponent(lecture);
             lectureComponent.addButtonToPanel(lecture);
             this.addComponent(lectureComponent);
         });
@@ -31,7 +33,8 @@ public class LecturesLayout extends VerticalLayout {
     public void createUserPanel(Collection<LecturesHasUsers> lectures) {
         this.removeAllComponents();
         lectures.forEach(lecture -> {
-            LectureComponent lectureComponent = new LectureComponent(lecture.getLecture());
+            LectureComponent lectureComponent = new LectureComponent();
+            lectureComponent.createComponent(lecture.getLecture());
             lectureComponent.addCancelButton(lecture);
             this.addComponent(lectureComponent);
         });
