@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -25,6 +27,8 @@ public class EmailService {
     @Value("${email.content}")
     private String content;
 
+    @Value("${email.date}")
+    private String dateFooter;
 
     private UsersRepository usersRepository;
 
@@ -39,7 +43,8 @@ public class EmailService {
         String content = this.content.replace("user", lecturesHasUsers.getUser().getUsername())
                 .replace("title", lecture.getLectureName())
                 .replace("date", lecture.getLectureDate().format(formatter));
-        String completeContent = header + "\n" + content;
+        String footer = this.dateFooter.replace("date", LocalDateTime.now().format(formatter));
+        String completeContent = header + "\n" + content+" "+footer;
         Files.write(Paths.get("email.txt"), completeContent.getBytes());
     }
 
