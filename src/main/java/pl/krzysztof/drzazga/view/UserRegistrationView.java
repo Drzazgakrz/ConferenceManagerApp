@@ -8,6 +8,7 @@ import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataIntegrityViolationException;
 import pl.krzysztof.drzazga.exception.WrongDataException;
 import pl.krzysztof.drzazga.model.Lecture;
 import pl.krzysztof.drzazga.model.User;
@@ -35,8 +36,10 @@ public class UserRegistrationView extends VerticalLayout implements View {
     private String saveButtonText;
     @Value("${registration.completed}")
     private String finalText;
-    @Value("email.error")
+    @Value("${email.error}")
     private String emailError;
+    @Value("${username.error}")
+    private String usernameNotUnique;
 
     private Lecture lecture;
 
@@ -89,6 +92,8 @@ public class UserRegistrationView extends VerticalLayout implements View {
             this.registrationService.register(this.user, this.lecture);
             this.finalLabel.setValue(finalText);
             this.resetUser();
+        } catch (DataIntegrityViolationException e){
+            finalLabel.setValue(this.usernameNotUnique);
         } catch (WrongDataException e) {
             finalLabel.setValue(e.getReason());
         } catch (ConstraintViolationException e) {

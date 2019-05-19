@@ -23,7 +23,7 @@ public class SignInView extends VerticalLayout implements View {
     private User user;
     private SignInService signInService;
     private Label errorLabel;
-    @Value("signIn.error")
+    @Value("${signIn.error}")
     private String error;
 
     @Autowired
