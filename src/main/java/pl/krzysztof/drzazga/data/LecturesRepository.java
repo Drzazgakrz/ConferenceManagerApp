@@ -11,7 +11,8 @@ import java.util.Optional;
 
 public interface LecturesRepository extends JpaRepository<Lecture,Long> {
     @Transactional
-    @Query("select distinct lecture from Lecture lecture left join fetch lecture.users where lecture.conferencePath=?1")
+    @Query("select distinct lecture from Lecture lecture left join fetch lecture.users where lecture.conferencePath=?1 " +
+            "order by lecture.lectureDate asc")
     List<Lecture> getAllByConferencePathOrderByLectureDateAsc(ConferencePath path);
 
     @Transactional
