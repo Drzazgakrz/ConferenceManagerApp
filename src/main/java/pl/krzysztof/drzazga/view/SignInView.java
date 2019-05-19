@@ -34,9 +34,10 @@ public class SignInView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        if (user.isEmpty())
+        if (user.isEmpty()) {
+            this.removeAllComponents();
             initialize();
-        else {
+        } else {
             this.forward();
         }
     }
